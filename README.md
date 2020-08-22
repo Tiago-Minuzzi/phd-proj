@@ -1,2 +1,2 @@
 # phd-proj
-My phd project sccripts and notebooks
+My phd project scripts and notebooks
