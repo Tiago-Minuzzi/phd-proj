@@ -88,6 +88,7 @@ res_prob = modelo.predict_proba(np.expand_dims(user_seq_to_pred, axis=2), batch_
 res_label = modelo.predict_classes(np.expand_dims(user_seq_to_pred, axis=2), batch_size = 2)
 
 # Format results
+pd.set_option('display.float_format', lambda x: f'{x:.3f}')
 res_label_S = pd.Series(res_label)
 res_prob_0 = pd.Series((res_prob[:,0])*100)
 res_prob_1 = pd.Series((res_prob[:,1])*100)

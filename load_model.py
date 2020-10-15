@@ -86,8 +86,10 @@ user_seq_to_pred = np.delete(user_df_flat, -1, 0)
 modelo = load_model(tes_mdl)
 res_prob = modelo.predict_proba(np.expand_dims(user_seq_to_pred, axis=2), batch_size = 2)
 res_label = modelo.predict_classes(np.expand_dims(user_seq_to_pred, axis=2), batch_size = 2)
+print("There is an invalid sequence")
 
 # Format results
+pd.set_option('display.float_format', lambda x: f'{x:.3f}')
 res_label_S = pd.Series(res_label)
 res_prob_0 = pd.Series((res_prob[:,0])*100)
 res_prob_1 = pd.Series((res_prob[:,1])*100)
