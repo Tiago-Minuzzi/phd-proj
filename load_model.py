@@ -26,8 +26,8 @@ np.set_printoptions(threshold=sys.maxsize) # Show full arrays (without truncatio
 inp_arq = sys.argv[1]
 out_arq = sys.argv[2] if len(sys.argv) >= 3 else None # Check whether the element exists
 pad_ref = "fastas/pad_ref03.fasta"
-#tes_mdl = "models/model_var01.05.hdf5"
-tes_mdl = "models/model_var01.05-01.hdf5"
+tes_mdl = "models/model_var01.05.hdf5"
+#tes_mdl = "models/model_var01.05-01.hdf5"
 
 # Pre-processing functions
 # Fasta to data frame
