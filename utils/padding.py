@@ -4,6 +4,7 @@ import sys
 in_fasta = sys.argv[1]
 out_fasta = sys.argv[2]
 
+
 def padding(in_fasta, out_fasta):
 # Pad sequences to the leght of the longest sequence
     maxLen=len(max(open(in_fasta),key=len).strip())
@@ -17,4 +18,6 @@ def padding(in_fasta, out_fasta):
             # print(line)
         print(f'Longest sequence is {maxLen} nucleotides.')
 
-padding(in_fasta, out_fasta)
+
+if __name__ == '__main__':
+    padding(in_fasta, out_fasta)
