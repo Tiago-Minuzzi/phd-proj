@@ -22,7 +22,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.environ['AUTOGRAPH_VERBOSITY'] = '0'
 # Files
 dataset = 'nadd_ml_df_train_set_00.01.csv'
-
+# Set seed for model reproducibility
+SEED = 13
 # Functions
 def fasta_frame(fasta_file,label):
   identifiers = []
@@ -88,12 +89,12 @@ def te_hype(x_train, y_train, x_val, y_val, params):
 
 
 # SEED for model reproducibility
-SEED = 13
 np.random.seed(SEED)
 if tensorflow.__version__ == '2.3.1':
   tensorflow.random.set_seed(SEED)
 else:
-  tensorflow.random.set_random_seed(SEED)
+  #tensorflow.random.set_random_seed(SEED)
+  tensorflow.compat.v1.random.set_random_seed(SEED)
 # Import from csv
 seq_df = pd.read_csv(dataset)
 # Preprocessing

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""# Imports"""
-
+# Imports
 import os
 import pickle
 import pandas as pd
@@ -31,7 +30,8 @@ model_wb = "model_nadd_cnn_wb.hdf5"
 model_final = "model_nadd_cnn.hdf5"
 model_history = "model_nadd_cnn_saved_history"
 model_plot = 'model_nadd_cnn.png'
-
+# Set seed for model reproducibility
+SEED = 13
 # Functions
 def fasta_frame(fasta_file,label):
   identifiers = []
@@ -71,8 +71,7 @@ def flatten_sequence(pred_fasta_flat):
 
 
 # Seeds for model replication
-SEED = 13
-tf.random.set_random_seed(SEED)
+tf.compat.v1.random.set_random_seed(SEED)
 np.random.seed(SEED)
 # Load saved dataframe
 seq_df = pd.read_csv(dataset)
