@@ -2,10 +2,11 @@
 My phd project scripts and jupyter notebooks.
 
 ### To do:
-- [x] Get datab from repbase;
+- [x] Get data from repbase.
 - [x] Train ML models and test accuracy.
 - [x] Implement CNN an test accuracy 
-- [ ] Get new data from treb-db and dfam.
+- [x] Get new data from treb-db and dfam.
+- [x] Implement LSTM
 - [ ] Split data into TEs families.
 - [ ] Use RepeatMasker + CNN.
-- [ ] Implement LSTM
+- [ ] Get coordinates with CNN object detection
