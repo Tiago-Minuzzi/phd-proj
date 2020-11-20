@@ -1,30 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""# Imports"""
-
+# Imports
 import os
 import pickle
 import pandas as pd
-from Bio import SeqIO
 from warnings import simplefilter
+from model_funs import fasta_frame, ohe_fun, flatten_sequence
 import numpy as np
 from numpy import array
-from numpy import argmax
 from sklearn import preprocessing
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from tensorflow.python.util import deprecation
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv1D, LSTM, Dense, MaxPooling1D, Flatten, Dropout
+from tensorflow.keras.layers import Conv1D, Dense, MaxPooling1D, Flatten, Dropout
 from keras.utils import to_categorical
 from keras.callbacks import ModelCheckpoint
-from keras.preprocessing.sequence import pad_sequences
-
-simplefilter(action='ignore', category=FutureWarning)
+# Suppress warnings 
+deprecation._PRINT_DEPRECATION_WARNINGS = False
+simplefilter(action = 'ignore', category = FutureWarning)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-# print(tf.__version__)
+
 # Files
 dataset = 'nadd_ml_df_train_set_00.01.csv'
 model_wb = "model_nadd_cnn_lstm_wb.hdf5"
@@ -33,45 +30,6 @@ model_history = "model_nadd_cnn_lstm_saved_history"
 model_plot = 'model_nadd_cnn_lstm.png'
 # Set seed for model reproducibility
 SEED = 13
-# Functions
-def fasta_frame(fasta_file,label):
-  identifiers = []
-  sequences = []
-  with open(fasta_file) as f_f:
-    for seq_record in SeqIO.parse(f_f, 'fasta'):
-        identifiers.append(seq_record.id)
-        sequences.append(str(seq_record.seq.lower()))
-  s1 = pd.Series(identifiers, name = 'ID')
-  s2 = pd.Series(sequences, name = 'sequence')
-  fasta_frame = pd.DataFrame(dict(ID = s1, sequence = s2))
-  fasta_frame['label'] = label
-  return(fasta_frame)
-
-def ohe_fun(coluna):
-  integer_encoder = LabelEncoder()  
-  one_hot_encoder = OneHotEncoder(categories='auto')   
-  input_features = []
-
-  for linha in coluna[coluna.columns[1]]:
-    integer_encoded = integer_encoder.fit_transform(list(linha))
-    integer_encoded = np.array(integer_encoded).reshape(-1, 1)
-    one_hot_encoded = one_hot_encoder.fit_transform(integer_encoded)
-    input_features.append(one_hot_encoded.toarray())
-  input_features=pad_sequences(input_features, padding='post')
-  input_features = np.stack(input_features)
-  return(input_features)
-
-def flatten_sequence(pred_fasta_flat):
-  dimensoes=pred_fasta_flat.shape
-  n_samples=dimensoes[0]
-  n_x=dimensoes[1]
-  n_y=dimensoes[2]
-  n_xy=(n_x * n_y)
-  pred_fasta_flat=pred_fasta_flat.reshape(n_samples,n_xy)
-  return(pred_fasta_flat)
-
-
-# Seeds for model replication
 tf.compat.v1.random.set_random_seed(SEED)
 np.random.seed(SEED)
 # Load saved dataframe
@@ -94,8 +52,6 @@ x_train, x_test, ynn_train, ynn_test = train_test_split(x_flat_2d,
 # Expand dimensions for deep learning model
 x_train_3d = np.expand_dims(x_train, axis=2)
 x_test_3d = np.expand_dims(x_test, axis=2)
-# np.random.seed(SEED)
-# tf.random.set_random_seed(SEED)
 # CNN + LSTM model
 model_cnn_lstm = Sequential()
 # CNN layers

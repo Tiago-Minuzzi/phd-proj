@@ -17,9 +17,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv1D, Dense, MaxPooling1D, Flatten, Dropout
 from keras.utils import to_categorical
 from keras.callbacks import ModelCheckpoint
-
+# Suppress warnings
 deprecation._PRINT_DEPRECATION_WARNINGS = False
-simplefilter(action='ignore', category=FutureWarning)
+simplefilter(action = 'ignore', category = FutureWarning)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # Files
@@ -52,8 +52,6 @@ x_train, x_test, ynn_train, ynn_test = train_test_split(x_flat_2d,
 # Expand dimensions for deep learning model
 x_train_3d = np.expand_dims(x_train, axis=2)
 x_test_3d = np.expand_dims(x_test, axis=2)
-# np.random.seed(SEED)
-# tf.random.set_random_seed(SEED)
 # CNN model
 model_cnn = Sequential()
 # CNN layers
