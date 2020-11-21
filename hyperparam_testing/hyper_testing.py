@@ -16,17 +16,20 @@ os.environ['AUTOGRAPH_VERBOSITY'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 # Files
 dataset = f'../tables_etc/ml_df_train_set_00.01.csv'
+# dataset = '/home/tiago/Desktop/training_step/mini_test.csv'
 # Hyperparameter settings
 experiment_name = 'te_identification'
-parameters = {'lr': (0.5, 5, 10),
-     'first_neuron': [32],
-     'second_neuron': [24],
-     'third_neuron': [24],
-     'dense01_neuron': [24],
-     'kernel_size': [7,8,9,12],
-     'pool_size': [3,4,6,7],
-     'batch_size': [10,25],
-     'epochs': [15,20]}
+parameters = {'lr': [0.5, 5, 10],
+              'hidden_layers': [0,1,2,3],
+              'first_neuron': [16,24,32],
+              'hidden_neuron': [16,24,32],
+              'kernel_size': [7,8,9,12],
+              'pool_size': [3,4,6,7],
+              #'third_neuron': [24],
+              'dense_neuron': [16,24],
+              'dropout': [0,0.2,0.4],
+              'batch_size': [10,25],
+              'epochs': [15,20]}
 # Set seed for model reproducibility
 SEED = 13
 np.random.seed(SEED)

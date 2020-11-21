@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 import tensorflow
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv1D, Dense, MaxPooling1D, Flatten
+from tensorflow.keras.layers import Conv1D, Dense, MaxPooling1D, Flatten, Dropout
 from keras.preprocessing.sequence import pad_sequences
 # Suppress warnings etc
 simplefilter(action = 'ignore', category = FutureWarning)
@@ -57,24 +57,32 @@ def flatten_sequence(pred_fasta_flat):
 
 
 def te_hype(x_train, y_train, x_val, y_val, params):
-	model = Sequential()
-	model.add(Conv1D(filters=params['first_neuron'], kernel_size=params['kernel_size'], 
-	                input_shape=(x_train.shape[1], 1),activation="relu"))
-	model.add(MaxPooling1D(pool_size=params['pool_size']))
-	model.add(Conv1D(filters=params['second_neuron'], kernel_size=params['kernel_size'],activation="relu"))
-	model.add(MaxPooling1D(pool_size=params['pool_size']))
-	model.add(Conv1D(filters=params['third_neuron'], kernel_size=params['kernel_size'],activation="relu"))
-	model.add(MaxPooling1D(pool_size=params['pool_size']))
-	model.add(Flatten())
-	model.add(Dense(params['dense01_neuron'], activation="relu"))
-	model.add(Dense(2, activation='softmax'))
-	model.compile(loss="categorical_crossentropy",
-	              optimizer='adam',
-	              metrics=['acc'])
-	history = model.fit(x_train, y_train, 
-	                  epochs=params['epochs'],
-	                  batch_size=params['batch_size'],
-	                  verbose=1,
-	                  validation_split=0.0,
-	                  validation_data=(x_val, y_val))	
-	return(history, model)
+  model = Sequential()
+  model.add(Conv1D(filters=params['first_neuron'],
+                  kernel_size=params['kernel_size'],
+                  input_shape=(x_train.shape[1], 1),
+                  activation="relu"))
+  model.add(MaxPooling1D(pool_size=params['pool_size']))
+
+  for i in range(params['hidden_layers']):        
+        model.add(Conv1D(filters=params['hidden_neuron'], kernel_size=params['kernel_size'],activation="relu"))
+        model.add(MaxPooling1D(pool_size=params['pool_size']))
+	# model.add(Conv1D(filters=params['third_neuron'], kernel_size=params['kernel_size'],activation="relu"))
+	# model.add(MaxPooling1D(pool_size=params['pool_size']))
+
+  model.add(Flatten())
+
+  model.add(Dense(params['dense_neuron'], activation="relu"))
+  model.add(Dropout(params['dropout']))
+  model.add(Dense(2, activation='softmax'))
+  model.compile(loss="categorical_crossentropy",
+                optimizer='adam',
+                metrics=['acc'])
+
+  history = model.fit(x_train, y_train,
+                      epochs=params['epochs'],
+                      batch_size=params['batch_size'],
+                      verbose=1,
+                      validation_split=0.0,
+                      validation_data=(x_val, y_val))	
+  return(history, model)
