@@ -64,6 +64,8 @@ teste = ta.Scan(x=x_train_3d,
                 x_val=x_test_3d,
                 y_val=ynn_test,
                 model=te_hype,
-                fraction_limit=0.01, 
+                fraction_limit=None,
+                round_limit=50
                 params=parameters,
-                experiment_name=experiment_name)
+                experiment_name=experiment_name,
+                seed=SEED)
