@@ -12,7 +12,7 @@ COORDS = 'db_te_coords_beta.csv'
 TABOLD = 'db_te_classified_beta.csv'
 # Read files as dataframes
 coords = pd.read_csv(COORDS, usecols=('score','id','start','end','family'))
-tabold = pd.read_csv(TABOLD,usecols=('id','class','order','family','species'))
+tabold = pd.read_csv(TABOLD,usecols=('id','class','order','family'))
 # Merge dataframes
 merged = pd.merge(tabold,coords,on=['id','family'],how='outer')
 # Slice dataframes to select columns
@@ -30,6 +30,8 @@ d_ordens = f_ordens.set_index('family').T.to_dict('list')
 merged['class'] = merged['family'].map(d_classes).str[0]
 ## map values to order column
 merged['order'] = merged['family'].map(d_ordens).str[0]
+# Remove duplicates
+merged.drop_duplicates(inplace=True,ignore_index=True)
 # Save dataframe to file
 merged.to_csv('db_te_class_beta_1.csv',index=False)
 # Get value counts for class, order, family
