@@ -51,7 +51,7 @@ seq_df = pd.read_csv(TDS, usecols=(FIDENT, CLASSI, TARGET))
 tokenizer = Tokenizer(num_words=None,split=' ', char_level=True, lower=True)
 sequencias = seq_df[TARGET]
 tokenizer.fit_on_texts(sequencias)
-#vocab_size = len(tokenizer.word_index) + 1
+vocab_size_seq = len(tokenizer.word_index) + 1
 x_sequence_arrays = tokenizer.texts_to_sequences(sequencias)
 # Sequence padding
 padded_seqs = pad_sequences(x_sequence_arrays, padding='post')
@@ -93,7 +93,7 @@ BSIZE = 25
 # Set sequential model
 model_var01_05 = Sequential()
 # Embedding layer
-model_var01_05.add(Embedding(input_dim=vocab_size,
+model_var01_05.add(Embedding(input_dim=vocab_size_seq,
                              output_dim=EMB_DIM,
                              input_length=XINP,
                              mask_zero = False))
