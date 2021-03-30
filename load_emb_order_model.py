@@ -28,7 +28,7 @@ INFASTA = sys.argv[1]
 RESCSV = sys.argv[2] if len(sys.argv) >=3 else None
 # Get model
 MODELO = 'model_embedded_order_wb.hdf5'
-PADVALUE = 21759
+PADVALUE = 38812
 
 
 def fasta_frame(fasta_file):

@@ -28,7 +28,7 @@ INFASTA = sys.argv[1]
 RESCSV = sys.argv[2] if len(sys.argv) >=3 else None
 # Get model
 MODELO = 'model_embedded_order_wb.hdf5'
-PADVALUE = 21759
+PADVALUE = 38797
 
 
 def fasta_frame(fasta_file):
@@ -50,7 +50,7 @@ fas_df = fasta_frame(INFASTA)
 identifiers = fas_df['id']
 sequences = fas_df['sequence']
 # Labels
-te_labels = {'nt': 1, 'retro': 2, 'dna': 3}
+te_labels = {'te': 1, 'nt': 2}
 # Tokenize sequences
 tkz_seq = Tokenizer(num_words = None, split = ' ', char_level = True, lower = True)
 tkz_seq.fit_on_texts(sequences)
